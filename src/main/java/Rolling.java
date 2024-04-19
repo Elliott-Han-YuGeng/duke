@@ -20,12 +20,13 @@ public class Rolling {
 
     public static void start() {
         String greeting = "Hello! I'm Your Rolling Bear!\n"
-                        + "What can I do for you?";
+                        + "What can I do for you? todo, deadline, event...\n"
+                        + "(type 'bye' to exit)";
         System.out.println(greeting);
     }
 
     public static void userInput() {
-        line = in.nextLine();
+        line = in.nextLine().trim().replaceAll("\\s+", " ");
 
 //      Split by space
         String[] lineSplit = line.split(" ");
@@ -54,30 +55,73 @@ public class Rolling {
     }
 
     public static void addtoList(Task[] ss, String s) {
-        if (l1.equals("todo")) {
-            ss[loc] = new Todo(s.substring(5).trim());
-        } else if (l1.equals("deadline") && lineSlashLength==2 && l4.toLowerCase().startsWith("by ")) {
-            ss[loc] = new Deadline(l3.substring(9).trim(), l4.substring(3).trim());
-        } else if (l1.equals("event") && lineSlashLength==3 && l4.toLowerCase().startsWith("from ") && l5.toLowerCase().startsWith("to ")) {
-            ss[loc] = new Event(l3.substring(6).trim(), l4.substring(5).trim(), l5.substring(3).trim());
-        } else {
-            ss[loc] = new Task(s);
+        switch (l1) {
+            case "todo":
+                ss[loc] = new Todo(s.substring(5).trim());
+                break;
+            case "deadline":
+                ss[loc] = new Deadline(l3.substring(9).trim(), l4.substring(3).trim());
+                break;
+            case "event":
+                ss[loc] = new Event(l3.substring(6).trim(), l4.substring(5).trim(), l5.substring(3).trim());
+                break;
         }
-        System.out.println("Sure! Just added, my lord!\n"
+        System.out.println("Sure! Just added to the task list!\n"
                          + "  " + ss[loc].getString() + "\n"
-                         + "Task+1 Now you have " + (loc+1) + " tasks in the list.");
+                         + "Task+1 | Now you have " + (loc+1) + " task(s) in the list.\n");
         loc++;
     }
 
     public static void printList(Task[] ss) {
-        System.out.println("Sure! These are the tasks in your list:");
-        int i = 1;
-        for (Task t : ss) {
-            if (i <= loc) {
-                System.out.println(i + "." + t.getString());
+        if (loc==0) {
+            System.out.println("You have no task in the list now.");
+        } else {
+            System.out.println("Sure! These are the tasks in your list:");
+            int i = 1;
+            for (Task t : ss) {
+                if (i <= loc) {
+                    System.out.println(i + "." + t.getString());
+                }
+                i++;
             }
-            i++;
+            System.out.println();
         }
+    }
+
+    public static void throwRollingException() throws RollingException {
+        throw new RollingException(line, lineLength, l1, l2, l3, lineSlashLength, l4, l5, loc);
+    }
+
+    public static void handleMark() throws RollingException {
+        if (lineLength==2 && l2!=0 && l2<=loc) {
+            todoList[l2 - 1].markAsDone();
+        } else throwRollingException();
+        System.out.println();
+    }
+
+    public static void handleUnmark() throws RollingException {
+        if (lineLength==2 && l2!=0 && l2<=loc) {
+            todoList[l2 - 1].markAsNotDone();
+        } else throwRollingException();
+        System.out.println();
+    }
+
+    public static void handleTodo() throws RollingException {
+        if (lineLength>1 && !line.contains("/")) {
+            addtoList(todoList, line);
+        } else throwRollingException();
+    }
+
+    public static void handleDeadline() throws RollingException {
+        if (lineLength>1 && line.contains("/by ") && !l3.trim().equals("deadline") && lineSlashLength==2 && !l4.trim().equals("by")) {
+            addtoList(todoList, line);
+        } else throwRollingException();
+    }
+
+    public static void handleEvent() throws RollingException {
+        if (lineLength>1 && line.contains("/from ") && line.contains("/to ") && !l3.trim().equals("event") && lineSlashLength==3 && !l4.trim().equals("from") && !l5.trim().equals("to")) {
+            addtoList(todoList, line);
+        } else throwRollingException();
     }
 
     public static void exit() {
@@ -88,23 +132,40 @@ public class Rolling {
 
     public static void main(String[] args) {
         start();
-
         userInput();
 
 //      Dialog
         while(!line.equalsIgnoreCase("bye")) {
-            if (line.equalsIgnoreCase("list")) {
-                printList(todoList);
-            } else if (lineLength==2 && l1.equals("mark") && l2!=0) {
-                todoList[l2 - 1].markAsDone();
-            } else if (lineLength==2 && l1.equals("unmark") && l2!=0) {
-                todoList[l2 - 1].markAsNotDone();
-            } else {
-                addtoList(todoList, line);
+            try {
+                switch (l1) {
+                    case "list":
+                        printList(todoList);
+                        break;
+                    case "mark":
+                        handleMark();
+                        break;
+                    case "unmark":
+                        handleUnmark();
+                        break;
+                    case "todo":
+                        handleTodo();
+                        break;
+                    case "deadline":
+                        handleDeadline();
+                        break;
+                    case "event":
+                        handleEvent();
+                        break;
+                    default:
+                        throwRollingException();
+                        break;
+                }
+            } catch (RollingException e) {
+                userInput();
+                continue;
             }
             userInput();
         }
-
         exit();
     }
 }
