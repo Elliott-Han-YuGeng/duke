@@ -6,7 +6,7 @@ public class Rolling {
     private static final Scanner in = new Scanner(System.in);
     private static String line;            // user original input
     private static int lineLength;
-    private static String l1;              // keyword: todo, deadline, event, mark, unmark, list, bye
+    private static Command l1;              // keyword: todo, deadline, event, mark, unmark, list, bye
     private static int l2;                 // number to mark or unmark: 1, 2, 3, ...
     private static int lineSlashLength;
     private static String l3;              // contains task description
@@ -15,6 +15,18 @@ public class Rolling {
 
     //  Create a todo list
     private static final ArrayList<Task> todoList = new ArrayList<>();
+
+    //  Store Keywords
+    public enum Command {
+        TODO,
+        DEADLINE,
+        EVENT,
+        MARK,
+        UNMARK,
+        DELETE,
+        LIST,
+        NULL
+    }
 
 //  ---------- Static Method --------------------------------------------------------
 
@@ -31,7 +43,11 @@ public class Rolling {
 //      Split by space
         String[] lineSplit = line.split(" ");
         lineLength = lineSplit.length;
-        l1 = lineSplit[0].toLowerCase();
+        try {
+            l1 = Command.valueOf(lineSplit[0].toUpperCase());
+        } catch (Exception e) {
+            l1 = Command.NULL;
+        }
         try {
             l2 = Integer.parseInt(lineSplit[1]);
         } catch (Exception e) {
@@ -56,13 +72,13 @@ public class Rolling {
 
     public static void addtoList(ArrayList<Task> ss, String s) {
         switch (l1) {
-            case "todo":
+            case TODO:
                 ss.add(new Todo(s.substring(5).trim()));
                 break;
-            case "deadline":
+            case DEADLINE:
                 ss.add(new Deadline(l3.substring(9).trim(), l4.substring(3).trim()));
                 break;
-            case "event":
+            case EVENT:
                 ss.add(new Event(l3.substring(6).trim(), l4.substring(5).trim(), l5.substring(3).trim()));
                 break;
         }
@@ -142,25 +158,25 @@ public class Rolling {
         while(!line.equalsIgnoreCase("bye")) {
             try {
                 switch (l1) {
-                    case "todo":
+                    case TODO:
                         handleTodo();
                         break;
-                    case "deadline":
+                    case DEADLINE:
                         handleDeadline();
                         break;
-                    case "event":
+                    case EVENT:
                         handleEvent();
                         break;
-                    case "mark":
+                    case MARK:
                         handleMark();
                         break;
-                    case "unmark":
+                    case UNMARK:
                         handleUnmark();
                         break;
-                    case "delete":
+                    case DELETE:
                         handleDelete();
                         break;
-                    case "list":
+                    case LIST:
                         printList(todoList);
                         break;
                     default:

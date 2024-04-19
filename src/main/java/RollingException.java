@@ -1,14 +1,14 @@
 public class RollingException extends Exception {
-    public RollingException(String line, int lineLength, String l1, int l2, String l3, int lineSlashLength, String l4, String l5, int listSize) {
+    public RollingException(String line, int lineLength, Rolling.Command l1, int l2, String l3, int lineSlashLength, String l4, String l5, int listSize) {
         switch (l1) {
-            case "todo":
+            case TODO:
                 if (lineLength == 1) {
                     System.out.println("OOPS!!! The description of a todo cannot be empty.\n");
                 } else if (line.contains("/")) {
                     System.out.println("OOPS!!! The description of a todo cannot contain '/'. \nIf you are trying to add a deadline or event, please start with 'deadline' or 'event' instead.\n");
                 }
                 break;
-            case "deadline":
+            case DEADLINE:
                 if (lineLength == 1) {
                     System.out.println("OOPS!!! The description of a deadline cannot be empty and should be stated in the format of 'deadline do sth /by ...'.\n");
                 } else if (!line.contains("/by ")) {
@@ -21,7 +21,7 @@ public class RollingException extends Exception {
                     System.out.println("OOPS!!! The deadline time cannot be empty.\n");
                 }
                 break;
-            case "event":
+            case EVENT:
                 if (lineLength == 1) {
                     System.out.println("OOPS!!! The description of a event cannot be empty and should be stated in the format of 'event do sth /from ... /to ...'.\n");
                 } else if (!line.contains("/from ") || !line.contains("/to ")) {
@@ -36,9 +36,9 @@ public class RollingException extends Exception {
                     System.out.println("OOPS!!! The end time of the event cannot be empty.\n");
                 }
                 break;
-            case "mark":
-            case "unmark":
-            case "delete":
+            case MARK:
+            case UNMARK:
+            case DELETE:
                 if (lineLength == 1) {
                     System.out.println("OOPS!!! Please indicate which task you want to " + l1 + ".\n");
                 } else if (lineLength > 2) {
