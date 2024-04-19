@@ -1,11 +1,12 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Rolling {
     //  Initiate a user input
     private static final Scanner in = new Scanner(System.in);
     private static String line;            // user original input
     private static int lineLength;
-    private static String l1;              // keyword: todo, deadline, event, list, bye, mark, unmark
+    private static String l1;              // keyword: todo, deadline, event, mark, unmark, list, bye
     private static int l2;                 // number to mark or unmark: 1, 2, 3, ...
     private static int lineSlashLength;
     private static String l3;              // contains task description
@@ -13,8 +14,7 @@ public class Rolling {
     private static String l5;              // to ?
 
     //  Create a todo list
-    private static final Task[] todoList = new Task[1000];
-    private static int loc = 0;
+    private static final ArrayList<Task> todoList = new ArrayList<>();
 
 //  ---------- Static Method --------------------------------------------------------
 
@@ -54,56 +54,37 @@ public class Rolling {
         }
     }
 
-    public static void addtoList(Task[] ss, String s) {
+    public static void addtoList(ArrayList<Task> ss, String s) {
         switch (l1) {
             case "todo":
-                ss[loc] = new Todo(s.substring(5).trim());
+                ss.add(new Todo(s.substring(5).trim()));
                 break;
             case "deadline":
-                ss[loc] = new Deadline(l3.substring(9).trim(), l4.substring(3).trim());
+                ss.add(new Deadline(l3.substring(9).trim(), l4.substring(3).trim()));
                 break;
             case "event":
-                ss[loc] = new Event(l3.substring(6).trim(), l4.substring(5).trim(), l5.substring(3).trim());
+                ss.add(new Event(l3.substring(6).trim(), l4.substring(5).trim(), l5.substring(3).trim()));
                 break;
         }
         System.out.println("Sure! Just added to the task list!\n"
-                         + "  " + ss[loc].getString() + "\n"
-                         + "Task+1 | Now you have " + (loc+1) + " task(s) in the list.\n");
-        loc++;
+                         + "  " + ss.get(ss.size() - 1).getString() + "\n"
+                         + "Task+1 | Now you have " + ss.size() + " task(s) in the list.\n");
     }
 
-    public static void printList(Task[] ss) {
-        if (loc==0) {
+    public static void printList(ArrayList<Task> ss) {
+        if (ss.isEmpty()) {
             System.out.println("You have no task in the list now.");
         } else {
             System.out.println("Sure! These are the tasks in your list:");
-            int i = 1;
-            for (Task t : ss) {
-                if (i <= loc) {
-                    System.out.println(i + "." + t.getString());
-                }
-                i++;
+            for (int i = 0; i < ss.size(); i++) {
+                System.out.println((i+1) + "." + ss.get(i).getString());
             }
-            System.out.println();
         }
+        System.out.println();
     }
 
     public static void throwRollingException() throws RollingException {
-        throw new RollingException(line, lineLength, l1, l2, l3, lineSlashLength, l4, l5, loc);
-    }
-
-    public static void handleMark() throws RollingException {
-        if (lineLength==2 && l2!=0 && l2<=loc) {
-            todoList[l2 - 1].markAsDone();
-        } else throwRollingException();
-        System.out.println();
-    }
-
-    public static void handleUnmark() throws RollingException {
-        if (lineLength==2 && l2!=0 && l2<=loc) {
-            todoList[l2 - 1].markAsNotDone();
-        } else throwRollingException();
-        System.out.println();
+        throw new RollingException(line, lineLength, l1, l2, l3, lineSlashLength, l4, l5, todoList.size());
     }
 
     public static void handleTodo() throws RollingException {
@@ -124,6 +105,29 @@ public class Rolling {
         } else throwRollingException();
     }
 
+    public static void handleMark() throws RollingException {
+        if (lineLength==2 && l2!=0 && l2<=todoList.size()) {
+            todoList.get(l2 - 1).markAsDone();
+        } else throwRollingException();
+        System.out.println();
+    }
+
+    public static void handleUnmark() throws RollingException {
+        if (lineLength==2 && l2!=0 && l2<=todoList.size()) {
+            todoList.get(l2 - 1).markAsNotDone();
+        } else throwRollingException();
+        System.out.println();
+    }
+
+    public static void handleDelete() throws RollingException {
+        if (lineLength==2 && l2!=0 && l2<=todoList.size()) {
+            System.out.println("Noted. This task is removed from the list:\n"
+                    + "  " + todoList.get(l2 - 1).getString() + "\n"
+                    + "Task-1 | Now you have " + (todoList.size()-1) + " task(s) in the list.\n");
+            todoList.remove(l2 - 1);
+        } else throwRollingException();
+    }
+
     public static void exit() {
         System.out.println("Ciao! See you soon!");
     }
@@ -138,15 +142,6 @@ public class Rolling {
         while(!line.equalsIgnoreCase("bye")) {
             try {
                 switch (l1) {
-                    case "list":
-                        printList(todoList);
-                        break;
-                    case "mark":
-                        handleMark();
-                        break;
-                    case "unmark":
-                        handleUnmark();
-                        break;
                     case "todo":
                         handleTodo();
                         break;
@@ -155,6 +150,18 @@ public class Rolling {
                         break;
                     case "event":
                         handleEvent();
+                        break;
+                    case "mark":
+                        handleMark();
+                        break;
+                    case "unmark":
+                        handleUnmark();
+                        break;
+                    case "delete":
+                        handleDelete();
+                        break;
+                    case "list":
+                        printList(todoList);
                         break;
                     default:
                         throwRollingException();
@@ -166,6 +173,7 @@ public class Rolling {
             }
             userInput();
         }
+
         exit();
     }
 }

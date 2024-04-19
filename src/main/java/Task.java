@@ -7,10 +7,6 @@ public class Task {
         this.isDone = false;
     }
 
-    public String getDescription() {
-        return this.description;
-    }
-
     public String getString() {
         return (isDone ? "[X] " : "[ ] ") + this.description; // mark done task with X
     }

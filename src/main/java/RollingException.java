@@ -1,5 +1,5 @@
 public class RollingException extends Exception {
-    public RollingException(String line, int lineLength, String l1, int l2, String l3, int lineSlashLength, String l4, String l5, int loc) {
+    public RollingException(String line, int lineLength, String l1, int l2, String l3, int lineSlashLength, String l4, String l5, int listSize) {
         switch (l1) {
             case "todo":
                 if (lineLength == 1) {
@@ -38,19 +38,20 @@ public class RollingException extends Exception {
                 break;
             case "mark":
             case "unmark":
+            case "delete":
                 if (lineLength == 1) {
                     System.out.println("OOPS!!! Please indicate which task you want to " + l1 + ".\n");
                 } else if (lineLength > 2) {
                     System.out.println("OOPS!!! Please state in the format of '" + l1 + " ?'.\n");
                 } else if (l2 == 0) {
                     System.out.println("OOPS!!! The task to " + l1 + " must be stated as a digit number and larger than 0, e.g. " + l1 + " 1.\n");
-                } else if (l2 > loc) {
-                    System.out.println("OOPS!!! You do not have Task " + l2 + ". \nNow you only have " + loc + " task(s) in the list.\n");
+                } else if (l2 > listSize) {
+                    System.out.println("OOPS!!! You do not have Task " + l2 + ". \nNow you only have " + listSize + " task(s) in the list.\n");
                 }
                 break;
             default:
                 System.out.println("Please start with a right keyword with space: todo, deadline, event, mark, unmark, list...\n"
-                                 + "(type 'bye' to exit)\n");;
+                                 + "(type 'bye' to exit)\n");
                 break;
         }
     }
