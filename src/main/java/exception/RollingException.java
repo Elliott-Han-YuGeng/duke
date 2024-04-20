@@ -1,3 +1,7 @@
+package exception;
+
+import command.CommandList;
+
 public class RollingException extends Exception {
     public RollingException(String line, int lineLength, CommandList l1, int l2, String l3, int lineSlashLength, String l4, String l5, int listSize) {
         switch (l1) {

@@ -1,3 +1,5 @@
+package tasktype;
+
 public class Event extends Task {
 
     protected String begin;

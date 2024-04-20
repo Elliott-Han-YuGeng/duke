@@ -1,3 +1,5 @@
+package tasktype;
+
 public class Task {
 
     protected String description;

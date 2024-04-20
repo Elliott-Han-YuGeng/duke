@@ -1,6 +1,12 @@
-import java.io.*;
-import java.util.ArrayList;
+package storage;
+
+import tasktype.*;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 
 public class Storage {
     private final String filePath;

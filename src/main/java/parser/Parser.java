@@ -1,3 +1,6 @@
+package parser;
+
+import command.CommandList;
 import java.util.Scanner;
 
 public class Parser {
