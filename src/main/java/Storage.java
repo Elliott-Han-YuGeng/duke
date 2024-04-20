@@ -34,14 +34,15 @@ public class Storage {
     }
 
 
-    public ArrayList<Task> load() throws FileNotFoundException {
+    public ArrayList<Task> load() {
         File file = new File(filePath);
-
-        if (!file.exists()) {
+        Scanner scanner;
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
             return new ArrayList<>();
         }
 
-        Scanner scanner = new Scanner(file);
         ArrayList<Task> tasks = new ArrayList<>();
 
         while (scanner.hasNext()) {
@@ -54,7 +55,6 @@ public class Storage {
             String[] lineSplits = line.split("\\|");
             boolean isDone = lineSplits[1].trim().equals("1");
             String description = lineSplits[2].trim();
-
             switch (lineSplits[0].trim()) {
                 case "T":
                     tasks.add(new Todo(description, isDone));
@@ -71,25 +71,26 @@ public class Storage {
         return tasks;
     }
 
-    public void save(ArrayList<Task> tasks) throws IOException {
+    public void save(ArrayList<Task> tasks) {
         File file = new File(filePath);
 
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
 
-        FileWriter writer = new FileWriter(file);
-
-        for (Task task : tasks) {
-            writer.write(task.getFileString() + "\n");
-        }
-
-        for (String line : unreadableLines) {
-            if (!line.isEmpty()) {
-                writer.write(line + "\n");
+        try {
+            FileWriter writer = new FileWriter(file);
+            for (Task t : tasks) {
+                writer.write(t.getFileString() + "\n");
             }
+            for (String line : unreadableLines) {
+                if (!line.isEmpty()) {
+                    writer.write(line + "\n");
+                }
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error saving tasks to file.");
         }
-
-        writer.close();
     }
 }
