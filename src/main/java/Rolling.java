@@ -1,3 +1,7 @@
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -13,8 +17,11 @@ public class Rolling {
     private static String l4;              // by ? or from ?
     private static String l5;              // to ?
 
+    //  Create a storage from path in OS dependent way
+    private static final Path filePath = Paths.get(".", "data", "rolling.txt");
+    private static final Storage file = new Storage(filePath.toString());
     //  Create a todo list
-    private static final ArrayList<Task> todoList = new ArrayList<>();
+    private static ArrayList<Task> todoList = new ArrayList<>();
 
     //  Store Keywords
     public enum Command {
@@ -30,7 +37,24 @@ public class Rolling {
 
 //  ---------- Static Method --------------------------------------------------------
 
+    public static void loadFile(Storage f) {
+        try {
+            todoList = f.load();
+        } catch (FileNotFoundException e) {
+            todoList = new ArrayList<>();
+        }
+    }
+
+    public static void saveToFile(Storage f, ArrayList<Task> ss) {
+        try {
+            f.save(ss);
+        } catch (IOException e) {
+            System.out.println("Error saving tasks to file.");
+        }
+    }
+
     public static void start() {
+        loadFile(file);
         String greeting = "Hello! I'm Your Rolling Bear!\n"
                         + "What can I do for you? todo, deadline, event...\n"
                         + "(type 'bye' to exit)";
@@ -85,6 +109,7 @@ public class Rolling {
         System.out.println("Sure! Just added to the task list!\n"
                          + "  " + ss.get(ss.size() - 1).getString() + "\n"
                          + "Task+1 | Now you have " + ss.size() + " task(s) in the list.\n");
+        saveToFile(file, ss);
     }
 
     public static void printList(ArrayList<Task> ss) {
@@ -126,6 +151,7 @@ public class Rolling {
             todoList.get(l2 - 1).markAsDone();
         } else throwRollingException();
         System.out.println();
+        saveToFile(file, todoList);
     }
 
     public static void handleUnmark() throws RollingException {
@@ -133,6 +159,7 @@ public class Rolling {
             todoList.get(l2 - 1).markAsNotDone();
         } else throwRollingException();
         System.out.println();
+        saveToFile(file, todoList);
     }
 
     public static void handleDelete() throws RollingException {
@@ -141,7 +168,13 @@ public class Rolling {
                     + "  " + todoList.get(l2 - 1).getString() + "\n"
                     + "Task-1 | Now you have " + (todoList.size()-1) + " task(s) in the list.\n");
             todoList.remove(l2 - 1);
+            try {
+                file.save(todoList);
+            } catch (IOException e) {
+                System.out.println("Error saving tasks to file.");
+            }
         } else throwRollingException();
+        saveToFile(file, todoList);
     }
 
     public static void exit() {
