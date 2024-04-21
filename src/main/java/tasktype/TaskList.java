@@ -46,6 +46,9 @@ public class TaskList {
             case EVENT:
                 tasks.add(new Event(l3.substring(6).trim(), l4.substring(5).trim(), l5.substring(3).trim()));
                 break;
+            case PERIOD:
+                tasks.add(new Period(l3.substring(7).trim(), l4.substring(8).trim(), l5.substring(4).trim()));
+                break;
         }
         ui.showAddTaskSuccess(tasks);
         file.save(tasks);

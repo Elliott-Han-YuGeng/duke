@@ -65,6 +65,9 @@ public class Rolling {
                     case EVENT:
                         hCMD.handleEvent();
                         break;
+                    case PERIOD:
+                        hCMD.handlePeriod();
+                        break;
                     case MARK:
                         hCMD.handleMark();
                         break;

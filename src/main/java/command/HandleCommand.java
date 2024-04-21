@@ -84,6 +84,32 @@ public class HandleCommand {
         } else throwRollingException();
     }
 
+    public void handlePeriod() throws RollingException {
+        if (lineLength>1 && line.contains("/between ") && line.contains("/and ") && !l3.trim().equals("period") && lineSlashLength==3 && !l4.trim().equals("between") && !l5.trim().equals("and")) {
+            if (l4.length() >= 8 && l5.length() >= 4) {
+                // Check if the date is in the correct format (yyyy-mm-dd)
+                String between = l4.substring(8).trim();
+                String and = l5.substring(4).trim();
+                Matcher l4Matcher = pattern.matcher(between);
+                Matcher l5Matcher = pattern.matcher(and);
+
+                if (l4Matcher.matches() && l5Matcher.matches()) {
+                    LocalDate date1 = LocalDate.parse(between);
+                    LocalDate date2 = LocalDate.parse(and);
+                    if (date1.isAfter(date2)) {
+                        throwRollingException();
+                    } else {
+                        todoList.addTask(file, line, l1, l3, l4, l5);
+                    }
+                } else {
+                    todoList.addTask(file, line, l1, l3, l4, l5);
+                }
+            } else {
+                todoList.addTask(file, line, l1, l3, l4, l5);
+            }
+        } else throwRollingException();
+    }
+
     public void handleMark() throws RollingException {
         if (lineLength==2 && l2!=0 && l2<=todoList.size()) {
             todoList.get(l2 - 1).markAsDone();

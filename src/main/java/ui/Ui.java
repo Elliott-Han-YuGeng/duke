@@ -10,8 +10,17 @@ public class Ui {
 
     public void start() {
         String greeting = "Hello! I'm Your Rolling Bear!\n"
-                + "What can I do for you? todo, deadline, event...\n"
-                + "(type 'bye' to exit)";
+                        + "       /\\__/\\ \n"
+                        + "      /`    '\\ \n"
+                        + "    === 0  0 ===\n"
+                        + "      \\  --  / \n"
+                        + "     /        \\ \n"
+                        + "    /          \\ \n"
+                        + "   |            |\n"
+                        + "    \\  ||  ||  / \n"
+                        + "     \\_oo__oo_/#######o\n\n"
+                        + "What can I do for you? todo, deadline, event...\n"
+                        + "(type 'bye' to exit)";
         System.out.println(greeting);
     }
 

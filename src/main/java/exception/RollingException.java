@@ -59,6 +59,31 @@ public class RollingException extends Exception {
                         }
                     }
                 }
+            case PERIOD:
+                if (lineLength == 1) {
+                    System.out.println("OOPS!!! The description of a period cannot be empty and should be stated in the format of 'period do sth /between ... /and ...'.\nYou can input period time in the format of 'yyyy-mm-dd'.\n");
+                } else if (!line.contains("/between ") || !line.contains("/and ")) {
+                    System.out.println("OOPS!!! The period time is necessary and must have '/between ... /and ...'.\nYou can input period time in the format of 'yyyy-mm-dd'.\n");
+                } else if (l3.trim().equals("period")) {
+                    System.out.println("OOPS!!! The description of a period cannot be empty, e.g. period do sth /between ... /and ...\nYou can input period time in the format of 'yyyy-mm-dd'.\n");
+                } else if (lineSlashLength != 3) {
+                    System.out.println("OOPS!!! The between & and time of the period must only contain two '/' which is '/between ... /and ...'.\nYou can input period time in the format of 'yyyy-mm-dd'.\n");
+                } else if (l4.trim().equals("between")) {
+                    System.out.println("OOPS!!! The start time of the period cannot be empty.\nYou can input period time in the format of 'yyyy-mm-dd'.\n");
+                } else if (l5.trim().equals("and")) {
+                    System.out.println("OOPS!!! The end time of the period cannot be empty.\nYou can input period time in the format of 'yyyy-mm-dd'.\n");
+                } else if (l4.length() >= 8 && l5.length() >= 4) {
+                    // Check if the date is in the correct format (yyyy-mm-dd)
+                    l4Matcher = pattern.matcher(l4.substring(8).trim());
+                    l5Matcher = pattern.matcher(l5.substring(4).trim());
+                    if (l4Matcher.matches() && l5Matcher.matches()) {
+                        LocalDate date1 = LocalDate.parse(l4.substring(8).trim());
+                        LocalDate date2 = LocalDate.parse(l5.substring(4).trim());
+                        if (date1.isAfter(date2)) {
+                            System.out.println("OOPS!!! The start time of the period cannot be later than the end time.\n");
+                        }
+                    }
+                }
                 break;
             case MARK:
             case UNMARK:

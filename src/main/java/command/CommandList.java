@@ -5,6 +5,7 @@ public enum CommandList {
     TODO,
     DEADLINE,
     EVENT,
+    PERIOD,
     MARK,
     UNMARK,
     DELETE,

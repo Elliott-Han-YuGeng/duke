@@ -4,3 +4,4 @@ E | 0 | project meeting | Aug 6th 2 | 4pm
 T | 1 | join sports club
 E | 0 | go overseas | 2024-04-21 | 2024-05-21
 D | 0 | submit homework | 2024-05-01
+P | 0 | collect certificate | 2024-04-01 | 2024-05-01
