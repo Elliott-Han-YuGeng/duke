@@ -74,11 +74,14 @@ public class Rolling {
                     case DELETE:
                         hCMD.handleDelete();
                         break;
-                    case LIST:
-                        ui.printList(todoList.getTasks());
-                        break;
                     case DATE:
-                        ui.printDailyTask(todoList.getTasks(), lineLength, l22);
+                        hCMD.handleDailyTask();
+                        break;
+                    case FIND:
+                        hCMD.handleFind();
+                        break;
+                    case LIST:
+                        ui.printList(todoList.getTasks(), "");
                         break;
                     default:
                         throw new RollingException(line, lineLength, l1, l2, l22, lineSlashLength, l3, l4, l5, todoList.size());

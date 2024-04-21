@@ -10,5 +10,6 @@ public enum CommandList {
     DELETE,
     LIST,
     DATE,
+    FIND,
     NULL
 }

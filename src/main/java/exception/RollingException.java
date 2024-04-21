@@ -91,8 +91,13 @@ public class RollingException extends Exception {
                     }
                 }
                 break;
+            case FIND:
+                if (lineLength == 1) {
+                    System.out.println("OOPS!!! Please indicate which keyword you want to find.\n");
+                }
+                break;
             default:
-                System.out.println("Please start with a right keyword with space: todo, deadline, event, mark, unmark, list...\n"
+                System.out.println("Please start with a right keyword with space: todo, deadline, event, mark, unmark, list, date, find...\n"
                                  + "(type 'bye' to exit)\n");
                 break;
         }

@@ -17,6 +17,10 @@ public class TaskList {
         return tasks;
     }
 
+    public boolean isEmpty() {
+        return tasks.isEmpty();
+    }
+
     public int size() {
         return tasks.size();
     }
@@ -46,4 +50,6 @@ public class TaskList {
         ui.showAddTaskSuccess(tasks);
         file.save(tasks);
     }
+
+
 }
