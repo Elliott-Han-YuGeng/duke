@@ -1,5 +1,8 @@
 package parser;
-
+/**
+ * Represents the storage of the application.
+ * This class is responsible for managing the storage and retrieval of data in the application.
+ */
 import command.CommandList;
 import java.util.Scanner;
 

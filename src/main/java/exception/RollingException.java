@@ -1,5 +1,8 @@
 package exception;
-
+/**
+ * Handles the execution of commands.
+ * This class is responsible for executing the commands and managing the results.
+ */
 import command.CommandList;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

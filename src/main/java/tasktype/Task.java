@@ -1,5 +1,8 @@
 package tasktype;
-
+/**
+ * Represents a task.
+ * Task have a description and a status of whether it is done.
+ */
 public class Task {
 
     protected String description;

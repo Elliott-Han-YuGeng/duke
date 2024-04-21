@@ -1,11 +1,13 @@
 package tasktype;
-
+/**
+ * Represents a list of tasks, with necessary operations to add, remove, and retrieve tasks.
+ */
 import ui.Ui;
 import storage.Storage;
 import command.CommandList;
 import java.util.ArrayList;
 
-public class TaskList {
+ public class TaskList {
     private static final Ui ui = new Ui();
     private final ArrayList<Task> tasks;
 

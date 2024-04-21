@@ -1,5 +1,8 @@
 package tasktype;
-
+/**
+ * Represents an deadline task.
+ * Deadline tasks inherit from the Task class, with an additional deadline date.
+ */
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;

@@ -1,5 +1,8 @@
 package storage;
-
+/**
+ * Represents the storage of the application.
+ * This class is responsible for managing the storage and retrieval of data in the application.
+ */
 import tasktype.*;
 import java.util.Scanner;
 import java.util.ArrayList;

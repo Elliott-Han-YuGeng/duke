@@ -1,11 +1,13 @@
 package command;
-
+/**
+ * Handles the execution of commands.
+ * This class is responsible for executing the commands and managing the results.
+ */
 import storage.Storage;
 import tasktype.Task;
 import tasktype.TaskList;
 import exception.RollingException;
 import ui.Ui;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.regex.Matcher;

@@ -1,5 +1,8 @@
 package tasktype;
-
+/**
+ * Represents a period task.
+ * Period tasks inherit from the Task class, with an additional between & and date.
+ */
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;

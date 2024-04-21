@@ -1,5 +1,7 @@
-import java.nio.file.Paths;
-
+/**
+ * This is the main class of the application.
+ * Running this class will start the application.
+ */
 import ui.Ui;
 import storage.Storage;
 import parser.Parser;
@@ -7,6 +9,7 @@ import tasktype.TaskList;
 import command.CommandList;
 import command.HandleCommand;
 import exception.RollingException;
+import java.nio.file.Paths;
 
 public class Rolling {
     private static Ui ui;
@@ -33,6 +36,9 @@ public class Rolling {
 
 //  ---------- Running Method --------------------------------------------------------
 
+    /**
+     * Gets the user input.
+     */
     public static void getUserInput() {
         Parser parser = new Parser();
         parser.userInput();
@@ -47,7 +53,10 @@ public class Rolling {
         l5 = parser.getL5();
         hCMD = new HandleCommand(file, todoList, line, lineLength, l1, l2, l22, lineSlashLength, l3, l4, l5);
     }
-
+    
+    /**
+     * Runs the application.
+     */
     public void run() {
         ui.start();
         getUserInput();
@@ -99,8 +108,11 @@ public class Rolling {
         ui.exit();
     }
 
-//  ---------- Main Function --------------------------------------------------------
-
+//  -------------------------------------------------------------------------------------------------
+    /**
+     * The main method of the application.
+     * @param args the command line arguments.
+     */
     public static void main(String[] args) {
         String filePath = Paths.get(".", "data", "rolling.txt").toString();
         new Rolling(filePath).run();

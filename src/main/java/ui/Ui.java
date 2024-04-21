@@ -1,5 +1,8 @@
 package ui;
-
+/**
+ * Represents the user interface of the application.
+ * Contains methods to interact with the user and showing outputs.
+ */
 import tasktype.Task;
 import java.util.ArrayList;
 

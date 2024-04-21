@@ -1,5 +1,8 @@
 package tasktype;
-
+/**
+ * Represents a todo task.
+ * Todo tasks inherit from the Task class.
+ */
 public class Todo extends Task {
 
     public Todo(String description, boolean isDone) {
