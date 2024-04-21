@@ -1,7 +1,14 @@
 T | 1 | read book
-D | 0 | return book | June 6th
+D | 1 | return book | June 6th
 E | 0 | project meeting | Aug 6th 2 | 4pm
-T | 1 | join sports club
-E | 0 | go overseas | 2024-04-21 | 2024-05-21
+T | 0 | join sports club
+E | 1 | go overseas | 2024-04-21 | 2024-05-21
 D | 0 | submit homework | 2024-05-01
 P | 0 | collect certificate | 2024-04-01 | 2024-05-01
+D | 0 | submit homework | 2024-04-21
+E | 0 | on duty | 2024-04-15 | 2024-04-30
+D | 0 | submit homework | 2024-04-21
+P | 0 | catch up | 2024-05-01 | 2024-06-01
+T | 1 | borrow book
+D | 0 | buy book | 2024-04-30
+E | 0 | meet with customers | 2024-04-25 | 2024-05-25

@@ -74,6 +74,9 @@ public class Storage {
                 case "E":
                     tasks.add(new Event(description, isDone, lineSplits[3].trim(), lineSplits[4].trim()));
                     break;
+                case "P":
+                    tasks.add(new Period(description, isDone, lineSplits[3].trim(), lineSplits[4].trim()));
+                    break;
                 default:
             }
         }

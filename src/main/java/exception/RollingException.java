@@ -62,6 +62,7 @@ public class RollingException extends Exception {
                         }
                     }
                 }
+                break;
             case PERIOD:
                 if (lineLength == 1) {
                     System.out.println("OOPS!!! The description of a period cannot be empty and should be stated in the format of 'period do sth /between ... /and ...'.\nYou can input period time in the format of 'yyyy-mm-dd'.\n");
@@ -125,7 +126,7 @@ public class RollingException extends Exception {
                 }
                 break;
             default:
-                System.out.println("Please start with a right keyword with space: todo, deadline, event, mark, unmark, list, date, find...\n"
+                System.out.println("Please start with a right keyword with space: todo, deadline, event, period, mark, unmark, delete, list, date, find...\n"
                                  + "(type 'bye' to exit)\n");
                 break;
         }
