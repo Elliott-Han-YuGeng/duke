@@ -19,6 +19,7 @@ public class Rolling {
     private static int lineLength;
     private static CommandList l1;         // keyword: todo, deadline, event, mark, unmark, list, bye
     private static int l2;                 // number to mark or unmark: 1, 2, 3, ...
+    private static String l22;             // Dateformat yyyy-mm-dd
     private static int lineSlashLength;
     private static String l3;              // contains task description
     private static String l4;              // by ? or from ?
@@ -39,11 +40,12 @@ public class Rolling {
         lineLength = parser.getLineLength();
         l1 = parser.getL1();
         l2 = parser.getL2();
+        l22 = parser.getL22();
         lineSlashLength = parser.getLineSlashLength();
         l3 = parser.getL3();
         l4 = parser.getL4();
         l5 = parser.getL5();
-        hCMD = new HandleCommand(file, todoList, line, lineLength, l1, l2, lineSlashLength, l3, l4, l5);
+        hCMD = new HandleCommand(file, todoList, line, lineLength, l1, l2, l22, lineSlashLength, l3, l4, l5);
     }
 
     public void run() {
@@ -75,8 +77,11 @@ public class Rolling {
                     case LIST:
                         ui.printList(todoList.getTasks());
                         break;
+                    case DATE:
+                        ui.printDailyTask(todoList.getTasks(), lineLength, l22);
+                        break;
                     default:
-                        throw new RollingException(line, lineLength, l1, l2, l3, lineSlashLength, l4, l5, todoList.size());
+                        throw new RollingException(line, lineLength, l1, l2, l22, lineSlashLength, l3, l4, l5, todoList.size());
                 }
             } catch (RollingException e) {
                 getUserInput();

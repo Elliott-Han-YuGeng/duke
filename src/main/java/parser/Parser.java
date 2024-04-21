@@ -7,8 +7,9 @@ public class Parser {
     private static Scanner in;
     private static String line;                // user original input
     private static int lineLength;
-    private static CommandList l1;         // keyword: todo, deadline, event, mark, unmark, list, bye
+    private static CommandList l1;             // keyword: todo, deadline, event, mark, unmark, list, bye
     private static int l2;                     // number to mark or unmark: 1, 2, 3, ...
+    private static String l22;                 // Dateformat yyyy-mm-dd
     private static int lineSlashLength;
     private static String l3;                  // contains task description
     private static String l4;                  // by ? or from ?
@@ -20,6 +21,7 @@ public class Parser {
         lineLength = 0;
         l1 = CommandList.NULL;
         l2 = 0;
+        l22 = "";
         lineSlashLength = 0;
         l3 = "";
         l4 = "";
@@ -41,6 +43,11 @@ public class Parser {
             l2 = Integer.parseInt(lineSplit[1]);
         } catch (Exception e) {
             l2 = 0;
+        }
+        try {
+            l22 = lineSplit[1];
+        } catch (Exception e) {
+            l22 = "";
         }
 
 //      Split by slash
@@ -73,6 +80,10 @@ public class Parser {
 
     public int getL2() {
         return l2;
+    }
+
+    public String getL22() {
+        return l22;
     }
 
     public int getLineSlashLength() {

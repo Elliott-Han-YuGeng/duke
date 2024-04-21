@@ -9,5 +9,6 @@ public enum CommandList {
     UNMARK,
     DELETE,
     LIST,
+    DATE,
     NULL
 }

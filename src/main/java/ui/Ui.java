@@ -1,7 +1,13 @@
 package ui;
 
+import command.CommandList;
+import exception.RollingException;
 import tasktype.Task;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Ui {
 
@@ -29,6 +35,43 @@ public class Ui {
             }
         }
         System.out.println();
+    }
+
+    public void printDailyTask(ArrayList<Task> ss, int lineLength, String date) throws RollingException {
+        ArrayList<String> dateList = new ArrayList<>();
+        Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
+        Matcher matcher = pattern.matcher(date);
+        int i = 0;
+        if (ss.isEmpty()) {
+            System.out.println("You have no task in the list now.\n");
+        } else if (matcher.matches()) {
+            while (i < ss.size()) {
+                Task t = ss.get(i);
+                if (t.getFileString().contains(" | " + date)) {
+                    dateList.add(ss.get(i).getString());
+                } else if (t.getDates() != "") {
+                    String[] dateSplits = t.getDates().split(" ");
+                    LocalDate d0 = LocalDate.parse(date);
+                    LocalDate d1 = LocalDate.parse(dateSplits[0]);
+                    LocalDate d2 = LocalDate.parse(dateSplits[1]);
+                    if ((d0.isAfter(d1) || d0.equals(d1)) && (d0.isBefore(d2) || d0.equals(d2))) {
+                        dateList.add(ss.get(i).getString());
+                    }
+                }
+                i++;
+            }
+            if (dateList.isEmpty()) {
+                System.out.println("You have no task on " + date + " in the list now.\n");
+            } else {
+                System.out.println("Sure! These are the tasks on " + date + ":");
+                for (int j = 0; j < dateList.size(); j++) {
+                    System.out.println((j+1) + "." + dateList.get(j));
+                }
+                System.out.println();
+            }
+        } else {
+            throw new RollingException("", lineLength, CommandList.DATE, 0, date, 0, "", "", "", 0);
+        }
     }
 
     public void showAddTaskSuccess(ArrayList<Task> tasks) {

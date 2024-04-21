@@ -29,4 +29,8 @@ public class Task {
         System.out.println("Oh no :( mission incomplete\n"
                          + "  " + this.getString());
     }
+
+    public String getDates() {
+        return "";
+    }
 }

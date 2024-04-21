@@ -1,5 +1,9 @@
 package tasktype;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Event extends Task {
 
     protected String begin;
@@ -15,13 +19,29 @@ public class Event extends Task {
         this(description, false, begin, end);
     }
 
+    public String tryStringToDate(String s) {
+        try {
+            LocalDate date = LocalDate.parse(s);
+            return date.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+        } catch (DateTimeParseException e) {
+            return s;
+        }
+    }
+
     @Override
     public String getString() {
-        return "[E]" + super.getString() + " (from: " + begin + " to: " + end + ")";
+        return "[E]" + super.getString() + " (from: " + tryStringToDate(begin) + " to: " + tryStringToDate(end) + ")";
     }
 
     @Override
     public String getFileString() {
         return "E | " + super.getFileString() + " | " + begin + " | " + end;
+    }
+
+    @Override
+    public String getDates() {
+        if (!tryStringToDate(begin).equals(begin) && !tryStringToDate(end).equals(end))
+            return begin + " " + end;
+        else return "";
     }
 }
